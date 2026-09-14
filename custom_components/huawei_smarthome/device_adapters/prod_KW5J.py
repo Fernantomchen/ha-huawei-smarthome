@@ -15,10 +15,12 @@ v2 完整版。暴露实体：
 暂不适配：临时密码/用户/指纹/门卡/人脸/手表/钱包钥匙管理（object 型服务），
 门锁音量（Profile 未提供 min/max），猫眼设置与 OTA（低频管理功能）。
 
-可用性说明：门锁是低功耗设备，休眠期间华为云端会将其标记为离线，
-集成会把实体整体置为 unavailable。本适配器声明
-``available_while_cloud_offline = True``，配合核心补丁（见 README）后
-云端离线时仍用最后已知状态展示；未打补丁时该声明无任何副作用。
+可用性说明：门锁是低功耗设备，休眠期间华为云端会将其标记为离线
+（networkConnectState.state：0=离线、1=休眠、2=在线）。休眠期间最后
+缓存状态仍然有效，因此本适配器通过 EntitySpec.availability（核心
+PR #67 提供的实体级回调）声明单品级可用性：state 为休眠(1)/在线(2)
+时保持可用，真正的离线(0)或字段缺失时回退到全局 context.available，
+不影响其他设备型号。
 """
 
 from __future__ import annotations
@@ -39,6 +41,13 @@ _LOCK_STATUS = {
 }
 
 _NETWORK_STATES = {0: "离线", 1: "休眠", 2: "在线"}
+
+# networkConnectState.state 值域（KW5J Profile 明确提供）：
+# 0=离线（不可用），1=休眠（保持可用并显示最后缓存），2=在线（可用）。
+_NET_STATE_OFFLINE = 0
+_NET_STATE_SLEEPING = 1
+_NET_STATE_ONLINE = 2
+_NET_AVAILABLE_STATES = {_NET_STATE_SLEEPING, _NET_STATE_ONLINE}
 
 _LOCK_ALARM_DESCRIPTIONS = {
     1: "故障",
@@ -133,6 +142,21 @@ def _number(value: Any) -> int | float | None:
     except (TypeError, ValueError):
         return None
     return int(number) if number.is_integer() else number
+
+
+def lock_available(device: DeviceContext) -> bool:
+    """Entity-level availability override (EntitySpec.availability, core PR #67).
+
+    The lock sleeps most of the time and the cloud then reports it offline
+    while its cached state stays valid. Sleep(1)/online(2) keep entities
+    available; a genuine offline(0) or a missing networkConnectState service
+    falls back to the global context.available.
+    """
+
+    state = _number(device.value("networkConnectState", "state"))
+    if state is not None:
+        return state in _NET_AVAILABLE_STATES
+    return device.available
 
 
 def _battery_level(value: Any) -> int | None:
@@ -232,6 +256,7 @@ def _alarm_delay_select(
         state=state,
         actions={"select_option": select_option},
         metadata={"options": list(options_map.values())},
+        availability=lock_available,
     )
 
 
@@ -239,11 +264,6 @@ class ProductKW5JAdapter:
     """Keep all KW5J entity and command choices in this file."""
 
     prod_id = "KW5J"
-
-    # 低功耗设备：云端休眠期报离线时仍用最后已知状态展示。
-    # 需要配合核心补丁（device_adapters/context.py 的 available 放行）才生效，
-    # 未打补丁的版本会自动忽略该声明，无副作用。
-    available_while_cloud_offline = True
 
     def entities(self, context: DeviceContext) -> tuple[EntitySpec, ...]:
         if context.profile is None or not context.has_service("lockStatus"):
@@ -260,6 +280,7 @@ class ProductKW5JAdapter:
                 key="lock",
                 name="门锁",
                 state=lock_state,
+                availability=lock_available,
             )
         ]
 
@@ -277,6 +298,7 @@ class ProductKW5JAdapter:
                     is not None
                     else None
                 },
+                availability=lock_available,
             )
         )
         entities.append(
@@ -288,6 +310,7 @@ class ProductKW5JAdapter:
                     "is_on": _number(device.value("lockStatus", "status")) == 1
                 },
                 metadata={"device_class": "door"},
+                availability=lock_available,
             )
         )
         entities.append(
@@ -298,6 +321,7 @@ class ProductKW5JAdapter:
                 state=lambda device: {
                     "is_on": _number(device.value("lockStatus", "status")) == 6
                 },
+                availability=lock_available,
             )
         )
 
@@ -314,6 +338,7 @@ class ProductKW5JAdapter:
                         )
                     },
                     metadata={"device_class": "battery", "unit": "%", "state_class": "measurement"},
+                    availability=lock_available,
                 )
             )
         if context.has_service("catEyeBattery"):
@@ -328,6 +353,7 @@ class ProductKW5JAdapter:
                         )
                     },
                     metadata={"device_class": "battery", "unit": "%", "state_class": "measurement"},
+                    availability=lock_available,
                 )
             )
 
@@ -346,6 +372,7 @@ class ProductKW5JAdapter:
                         is not None
                         else None
                     },
+                    availability=lock_available,
                 )
             )
         if context.has_service("netInfo"):
@@ -360,6 +387,7 @@ class ProductKW5JAdapter:
                         )
                     },
                     metadata={"unit": "%", "state_class": "measurement"},
+                    availability=lock_available,
                 )
             )
 
@@ -379,6 +407,7 @@ class ProductKW5JAdapter:
                         )
                     },
                     metadata={"device_class": "problem"},
+                    availability=lock_available,
                 )
             )
             entities.append(
@@ -394,6 +423,7 @@ class ProductKW5JAdapter:
                         is not None
                         else None
                     },
+                    availability=lock_available,
                 )
             )
 
@@ -445,6 +475,7 @@ class ProductKW5JAdapter:
                         name="最近开门记录",
                         state=last_open_record,
                         metadata={"icon": "mdi:door-open"},
+                        availability=lock_available,
                     ),
                     EntitySpec(
                         platform="sensor",
@@ -452,6 +483,7 @@ class ProductKW5JAdapter:
                         name="最近门锁事件",
                         state=last_lock_event,
                         metadata={"icon": "mdi:history"},
+                        availability=lock_available,
                     ),
                     EntitySpec(
                         platform="sensor",
@@ -459,6 +491,7 @@ class ProductKW5JAdapter:
                         name="最近门锁告警",
                         state=last_lock_alarm,
                         metadata={"icon": "mdi:alarm-light"},
+                        availability=lock_available,
                     ),
                 )
             )
@@ -469,11 +502,12 @@ class ProductKW5JAdapter:
                 EntitySpec(
                     platform="sensor",
                     key="firmware",
-                    name="固件版本",
-                    state=lambda device: {
-                        "native_value": device.value("update", "version")
-                    },
-                )
+                        name="固件版本",
+                        state=lambda device: {
+                            "native_value": device.value("update", "version")
+                        },
+                        availability=lock_available,
+                    )
             )
 
         # ---- 告警提醒设置开关 ----
@@ -486,6 +520,7 @@ class ProductKW5JAdapter:
                         name=label,
                         state=_alarm_switch_state(characteristic),
                         actions=_alarm_switch_actions(characteristic),
+                        availability=lock_available,
                     )
                 )
             entities.append(
