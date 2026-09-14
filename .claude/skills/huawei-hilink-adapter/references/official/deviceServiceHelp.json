@@ -1,0 +1,435 @@
+[
+    {
+        "type": "Light",
+        "name": "照明",
+        "scope": "home",
+        "sequence": 6,
+        "supportDevices": [
+            {
+                "deviceTypeId": "01B",
+                "deviceTypeName": "智能照明",
+                "standard": 1,
+                "serviceId": "switch&brightness",
+                "trustProdIds": [
+                    "2BB3",
+                    "154F",
+                    "155F",
+                    "2BB2",
+                    "133O",
+                    "21U2",
+                    "2BB0",
+                    "21DU",
+                    "131N",
+                    "146I",
+                    "1080",
+                    "20HZ",
+                    "21JC",
+                    "103G",
+                    "103O",
+                    "100z",
+                    "2DES",
+                    "2CQU",
+                    "2BDD",
+                    "2D6F",
+                    "20CL",
+                    "20CN"
+                ]
+            },
+            {
+                "deviceTypeId": "01B",
+                "deviceTypeName": "智能照明",
+                "standard": 1,
+                "serviceId": "switch",
+                "trustProdIds": [
+                    "2DAC"
+                ]
+            },
+            {
+                "deviceTypeId": "046",
+                "deviceTypeName": "智能照明",
+                "standard": 1,
+                "serviceId": "switch&brightness",
+                "trustProdIds": [
+                    "20I0",
+                    "2BNN",
+                    "21TW",
+                    "2AQO",
+                    "134D"
+                ]
+            },
+            {
+                "deviceTypeId": "176",
+                "deviceTypeName": "其他",
+                "standard": 1,
+                "serviceId": "switch1&switch2",
+                "trustProdIds": [
+                    "98ZG"
+                ]
+            },
+            {
+                "deviceTypeId": "A0E",
+                "deviceTypeName": "智能照明",
+                "standard": 1,
+                "serviceId": "switch&brightness",
+                "trustProdIds": [
+                    "ZG07",
+                    "ZG08"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "Environment",
+        "name": "环境",
+        "scope": "home",
+        "sequence": 4,
+        "supportDevices": [
+            {
+                "deviceTypeId": "012",
+                "deviceTypeName": "智能空调",
+                "serviceId": "switch&temper",
+                "standard": 0,
+                "trustProdIds": [
+                    "2262"
+                ]
+            },
+            {
+                "deviceTypeId": "012",
+                "deviceTypeName": "智能空调",
+                "serviceId": "switch&temperature",
+                "standard": 1,
+                "trustProdIds": [
+                    "A002",
+                    "A0E0",
+                    "A0CP",
+                    "100Z",
+                    "100Y"
+                ]
+            },
+            {
+                "deviceTypeId": "006",
+                "deviceTypeName": "空气检测器",
+                "serviceId": "airDetector",
+                "trustProdIds": [
+                    "108R",
+                    "108M",
+                    "108Q",
+                    "101N"
+                ]
+            },
+            {
+                "deviceTypeId": "006",
+                "deviceTypeName": "空气检测器",
+                "serviceId": "pm25|temperature|humidity",
+                "trustProdIds": [
+                    "20KX",
+                    "2BDZ"
+                ]
+            },
+            {
+                "deviceTypeId": "013",
+                "deviceTypeName": "空气净化器",
+                "serviceId": "switch",
+                "standard": 1,
+                "trustProdIds": [
+                    "20TL",
+                    "2B8J",
+                    "165U",
+                    "2B8I",
+                    "170W",
+                    "108T",
+                    "174Z"
+                ]
+            },
+            {
+                "deviceTypeId": "030",
+                "deviceTypeName": "新风",
+                "serviceId": "freshAir",
+                "standard": 0,
+                "trustProdIds": [
+                    "107M"
+                ]
+            },
+            {
+                "deviceTypeId": "03E",
+                "deviceTypeName": "红外人体感应传感器",
+                "serviceId": "luminance",
+                "trustProdIds": [
+                    "2BDI"
+                ]
+            },
+            {
+                "deviceTypeId": "048",
+                "deviceTypeName": "光照传感器",
+                "serviceId": "luminance",
+                "trustProdIds": [
+                    "2BMW",
+                    "2D73",
+                    "227Q"
+                ]
+            },
+            {
+                "deviceTypeId": "04E",
+                "deviceTypeName": "温湿度传感器",
+                "serviceId": "temperature|humidity",
+                "trustProdIds": [
+                    "21DJ",
+                    "2CQ8",
+                    "22ER"
+                ]
+            },
+            {
+                "deviceTypeId": "04E",
+                "deviceTypeName": "温湿度传感器",
+                "serviceId": "airDetector",
+                "trustProdIds": [
+                    "113D"
+                ]
+            },
+            {
+                "deviceTypeId": "052",
+                "deviceTypeName": "加湿器",
+                "serviceId": "switch&humidity",
+                "standard": 1,
+                "trustProdIds": [
+                    "117L",
+                    "20PO"
+                ]
+            },
+            {
+                "deviceTypeId": "052",
+                "deviceTypeName": "加湿器",
+                "serviceId": "switch&humidity",
+                "standard": 1,
+                "trustProdIds": [
+                    "202K",
+                    "204L"
+                ]
+            },
+            {
+                "deviceTypeId": "09B",
+                "deviceTypeName": "除湿机",
+                "serviceId": "switch&humidity",
+                "standard": 1,
+                "trustProdIds": [
+                    "210Y"
+                ]
+            },
+            {
+                "deviceTypeId": "000",
+                "deviceTypeName": "其他 ",
+                "serviceId": "acSwitch&acTemperature",
+                "standard": 0,
+                "trustProdIds": [
+                    "2188",
+                    "218B"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "Sunshade",
+        "name": "遮阳",
+        "scope": "home",
+        "sequence": 7,
+        "supportDevices": [
+            {
+                "deviceTypeId": "01C",
+                "deviceTypeName": "窗帘",
+                "serviceId": "action&opener",
+                "standard": 0,
+                "trustProdIds": [
+                    "2DCY",
+                    "2CQ0",
+                    "2CPZ"
+                ]
+            },
+            {
+                "deviceTypeId": "01C",
+                "deviceTypeName": "窗帘",
+                "serviceId": "mode&opener",
+                "standard": 1,
+                "trustProdIds": [
+                    "2ACV",
+                    "21Q8",
+                    "20J6",
+                    "2180",
+                    "20G4",
+                    "153Y",
+                    "21DD",
+                    "140B",
+                    "20J7"
+                ]
+            },
+            {
+                "deviceTypeId": "01C",
+                "deviceTypeName": "窗帘",
+                "serviceId": "motor&openLevel",
+                "standard": 0,
+                "trustProdIds": [
+                    "100K",
+                    "120Y",
+                    "105A"
+                ]
+            },
+            {
+                "deviceTypeId": "01C",
+                "deviceTypeName": "窗帘",
+                "serviceId": "mode",
+                "standard": 0,
+                "trustProdIds": [
+                    "21ES"
+                ]
+            },
+            {
+                "deviceTypeId": "01C",
+                "deviceTypeName": "窗帘",
+                "serviceId": "opener",
+                "standard": 0,
+                "trustProdIds": [
+                    "141Z"
+                ]
+            },
+            {
+                "deviceTypeId": "04D",
+                "deviceTypeName": "窗帘",
+                "serviceId": "mode&opener",
+                "standard": 1,
+                "trustProdIds": [
+                    "20L1"
+                ]
+            },
+            {
+                "deviceTypeId": "04D",
+                "deviceTypeName": "窗帘",
+                "serviceId": "opener",
+                "standard": 0,
+                "trustProdIds": [
+                    "144S"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "Water",
+        "name": "用水",
+        "scope": "home",
+        "sequence": 8,
+        "supportDevices": [
+            {
+                "deviceTypeId": "02D",
+                "deviceTypeName": "净水器",
+                "serviceId": "outputTds",
+                "trustProdIds": [
+                    "2ALB",
+                    "2CQV",
+                    "2D82",
+                    "2AWE",
+                    "207A",
+                    "2035"
+                ]
+            },
+            {
+                "deviceTypeId": "02D",
+                "deviceTypeName": "净水器",
+                "serviceId": "purifyWater",
+                "trustProdIds": [
+                    "21OA",
+                    "21NZ",
+                    "21OQ"
+                ]
+            },
+            {
+                "deviceTypeId": "027",
+                "deviceTypeName": "热水器",
+                "serviceId": "switch&temperature",
+                "trustProdIds": [
+                    "130O",
+                    "A0CX"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "Network",
+        "name": "家庭网络",
+        "scope": "home",
+        "sequence": 3,
+        "supportDevices": [
+            {
+                "deviceTypeId": "001",
+                "deviceTypeName": "路由",
+                "trustProdIds": [
+                    "K10G",
+                    "K10H",
+                    "K018",
+                    "K10E",
+                    "K015",
+                    "K013",
+                    "K10P",
+                    "K114",
+                    "K1AA",
+                    "K1A1",
+                    "K1AP"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "KitchenProtect",
+        "name": "厨卫安防",
+        "scope": "home",
+        "sequence": 0,
+        "supportDevices": [
+            {
+                "deviceTypeId": "039",
+                "deviceTypeName": "烟感",
+                "serviceId": "alarm",
+                "standard": 1,
+                "trustProdIds": [
+                    "2CV0"
+                ]
+            },
+            {
+                "deviceTypeId": "03C",
+                "deviceTypeName": "水浸探测器",
+                "serviceId": "alarm",
+                "standard": 1,
+                "trustProdIds": [
+                    "2BDP"
+                ]
+            },
+            {
+                "deviceTypeId": "03A",
+                "deviceTypeName": "燃气探测器",
+                "serviceId": "alarm",
+                "standard": 1,
+                "trustProdIds": [
+                    "2CUZ",
+                    "21DO"
+                ]
+            },
+            {
+                "deviceTypeId": "05C",
+                "deviceTypeName": "燃气开关",
+                "serviceId": "switch",
+                "standard": 1,
+                "trustProdIds": [
+                    "2BVW"
+                ]
+            }
+        ]
+    },
+    {
+        "type": "Index",
+        "name": "指数",
+        "scope": "user",
+        "sequence": 1
+    },
+    {
+        "type": "Scenario",
+        "name": "场景",
+        "scope": "user",
+        "sequence": 5
+    }
+]

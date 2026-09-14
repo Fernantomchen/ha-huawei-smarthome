@@ -1,0 +1,623 @@
+[
+  {
+    "type": "Environment",
+    "name": "环境",
+    "data": [
+      {
+        "serviceName": "PM25",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "1050"
+              ]
+            },
+            "rule": "{airDetector/PM25}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "108R",
+                "108Q",
+                "101N",
+                "107M"
+              ]
+            },
+            "rule": "airDetector/PM25"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2B8I",
+                "2B8J",
+                "20TL",
+                "165U",
+                "20KX",
+                "2BDZ",
+                "174Z"
+              ]
+            },
+            "rule": "pm25/current"
+          },
+          {
+            "device": {
+              "productIds": [
+                "170W",
+                "108T"
+              ]
+            },
+            "rule": "pm2p5/pm2p5Value"
+          }
+        ]
+      },
+      {
+        "serviceName": "temperature",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "108M"
+              ]
+            },
+            "rule": "airDetector/temperature"
+          },
+          {
+            "device": {
+              "productIds": [
+                "101N"
+              ]
+            },
+            "rule": "{airDetector/temperature}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "113D"
+              ]
+            },
+            "rule": "{airDetector/temperature}/100"
+          },
+          {
+            "device": {
+              "productIds": [
+                "210Y",
+                "A002",
+                "A0E0",
+                "20KX",
+                "A002",
+                "A0E0"
+              ]
+            },
+            "rule": "temperature/current"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2B8J",
+                "21DJ",
+                "2CQ8",
+                "2BDZ"
+              ]
+            },
+            "rule": "{temperature/current}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2262"
+              ]
+            },
+            "rule": "{indoor/indoor}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2188",
+                "218B"
+              ]
+            },
+            "rule": "acTemperature/current"
+          },
+          {
+            "device": {
+              "productIds": [
+                "100Z",
+                "100Y"
+              ]
+            },
+            "rule": "{temperature/currentTemperature}/10"
+          }
+        ]
+      },
+      {
+        "serviceName": "humidity",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "101N",
+                "108M"
+              ]
+            },
+            "rule": "airDetector/humidity"
+          },
+          {
+            "device": {
+              "productIds": [
+                "113D"
+              ]
+            },
+            "rule": "{airDetector/humidity}/100"
+          },
+          {
+            "device": {
+              "productIds": [
+                "107M"
+              ]
+            },
+            "rule": "{airDetector/humidity}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2B8J",
+                "210Y",
+                "117L",
+                "202K",
+                "204L",
+                "20KX",
+                "2CQ8",
+                "20PO",
+                "2BDZ"
+              ]
+            },
+            "rule": "humidity/current"
+          },
+          {
+            "device": {
+              "productIds": [
+                "21DJ"
+              ]
+            },
+            "rule": "{humidity/current}/10"
+          }
+        ]
+      },
+      {
+        "serviceName": "luminance",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2BMW",
+                "2BDI",
+                "2D73",
+                "227Q"
+              ]
+            },
+            "rule": "luminance/level"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "air",
+    "name": "环境",
+    "data": [
+      {
+        "serviceName": "PM25",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "1050"
+              ]
+            },
+            "rule": "{airDetector/PM25}/10"
+          },
+          {
+            "device": {
+              "deviceTypeIds": [
+                "006",
+                "043"
+              ]
+            },
+            "rule": "airDetector/PM25"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2B8I",
+                "2B8J"
+              ]
+            },
+            "rule": "pm25/current"
+          },
+          {
+            "device": {
+              "deviceTypeIds": [
+                "013"
+              ]
+            },
+            "rule": "pm2p5/pm2p5Value"
+          }
+        ]
+      },
+      {
+        "serviceName": "temperature",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "101N"
+              ]
+            },
+            "rule": "{airDetector/temperature}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2B8J",
+                "22ER"
+              ]
+            },
+            "rule": "{temperature/current}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "113D"
+              ]
+            },
+            "rule": "{airDetector/temperature}/100"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2262"
+              ]
+            },
+            "rule": "{indoor/indoor}/10"
+          }
+        ]
+      },
+      {
+        "serviceName": "humidity",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "101N"
+              ]
+            },
+            "rule": "airDetector/humidity"
+          },
+          {
+            "device": {
+              "productIds": [
+                "113D"
+              ]
+            },
+            "rule": "{airDetector/humidity}/100"
+          },
+          {
+            "device": {
+              "productIds": [
+                "2B8J",
+                "22ER"
+              ]
+            },
+            "rule": "humidity/current"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Water",
+    "name": "家庭用水",
+    "data": [
+      {
+        "serviceName": "waterTDS",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2035",
+                "2ALB",
+                "2CQV",
+                "2D82",
+                "2AWE"
+              ]
+            },
+            "rule": "outputTds/tds"
+          }
+        ]
+      },
+      {
+        "serviceName": "productionWaterDaily",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "21OA"
+              ]
+            },
+            "rule": "{purifyWater/daily}/10"
+          },
+          {
+            "device": {
+              "productIds": [
+                "21NZ"
+              ]
+            },
+            "rule": "purifyWater/daily"
+          }
+        ]
+      },
+      {
+        "serviceName": "productionWaterWeekly",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "21OA",
+                "21OQ"
+              ]
+            },
+            "rule": "purifyWater/weekly"
+          }
+        ]
+      },
+      {
+        "serviceName": "softWaterTotal",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "21OQ"
+              ]
+            },
+            "rule": "purifyWater/total"
+          }
+        ]
+      },
+      {
+        "serviceName": "netWaterDaily",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "21NZ"
+              ]
+            },
+            "rule": "purifyWater/daily"
+          }
+        ]
+      },
+      {
+        "serviceName": "netWaterWeekly",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "21NZ"
+              ]
+            },
+            "rule": "purifyWater/weekly"
+          }
+        ]
+      },
+      {
+        "serviceName": "switch",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "130O",
+                "A0CX"
+              ]
+            },
+            "rule": "switch/on"
+          }
+        ]
+      },
+      {
+        "serviceName": "targetTemperature",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "130O",
+                "A0CX"
+              ]
+            },
+            "rule": "temperature/target"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "KitchenProtect",
+    "name": "厨卫安防",
+    "data": [
+      {
+        "serviceName": "smokeAlarm",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2CV0"
+              ]
+            },
+            "rule": "alarm/alarm"
+          }
+        ]
+      },
+      {
+        "serviceName": "waterAlarm",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2BDP"
+              ]
+            },
+            "rule": "alarm/alarm"
+          }
+        ]
+      },
+      {
+        "serviceName": "gasAlarm",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2CUZ"
+              ]
+            },
+            "rule": "alarm/alarm"
+          }
+        ]
+      },
+      {
+        "serviceName": "valvesSwitch",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2BVW"
+              ]
+            },
+            "rule": "switch/on"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Light",
+    "name": "照明",
+    "data": [
+      {
+        "serviceName": "switch",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2BB3",
+                "154F",
+                "155F",
+                "2BB2",
+                "133O",
+                "21U2",
+                "2BB0",
+                "21DU",
+                "131N",
+                "146I",
+                "1080",
+                "20HZ",
+                "21JC",
+                "103G",
+                "103O",
+                "100z",
+                "2DES",
+                "2CQU",
+                "2BDD",
+                "2D6F",
+                "2DAC",
+                "20I0",
+                "2BNN",
+                "21TW",
+                "2AQO",
+                "134D",
+                "20CL",
+                "20CN",
+                "ZG07",
+                "ZG08"
+              ]
+            },
+            "rule": "switch/on"
+          }
+        ]
+      },
+      {
+        "serviceName": "brightness",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "2BB3",
+                "154F",
+                "155F",
+                "2BB2",
+                "133O",
+                "21U2",
+                "2BB0",
+                "21DU",
+                "131N",
+                "146I",
+                "1080",
+                "20HZ",
+                "21JC",
+                "103G",
+                "103O",
+                "100z",
+                "2DES",
+                "2CQU",
+                "2BDD",
+                "2D6F",
+                "20I0",
+                "2BNN",
+                "21TW",
+                "2AQO",
+                "134D",
+                "20CL",
+                "20CN",
+                "ZG07",
+                "ZG08"
+              ]
+            },
+            "rule": "brightness/brightness"
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "type": "Sunshade",
+    "name": "遮阳",
+    "data": [
+      {
+        "serviceName": "opener",
+        "serviceValue": [
+          {
+            "device": {
+              "productIds": [
+                "20J7",
+                "2DCY",
+                "140B",
+                "2CQ0",
+                "2CPZ"
+              ]
+            },
+            "rule": "opener/current"
+          },
+          {
+            "device": {
+              "productIds": [
+                "120Y",
+                "105A"
+              ]
+            },
+            "rule": "openLevel/currentLevel"
+          }
+        ]
+      }
+    ]
+  }
+]
+
+
