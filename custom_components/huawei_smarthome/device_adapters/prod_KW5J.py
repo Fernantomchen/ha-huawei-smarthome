@@ -18,9 +18,9 @@ v2 完整版。暴露实体：
 可用性说明：门锁是低功耗设备，休眠期间华为云端会将其标记为离线
 （networkConnectState.state：0=离线、1=休眠、2=在线）。休眠期间最后
 缓存状态仍然有效，因此本适配器通过 EntitySpec.availability（核心
-PR #67 提供的实体级回调）声明单品级可用性：state 为休眠(1)/在线(2)
-时保持可用，真正的离线(0)或字段缺失时回退到全局 context.available，
-不影响其他设备型号。
+PR #67 提供的实体级回调）声明单品级可用性。注意：实测 AGS-X11 设备
+从不实际上报 networkConnectState（Profile 有声明、云端无数据），故
+字段缺失时回退为保持可用；若未来设备开始上报则严格按字段判断。
 """
 
 from __future__ import annotations
@@ -147,16 +147,23 @@ def _number(value: Any) -> int | float | None:
 def lock_available(device: DeviceContext) -> bool:
     """Entity-level availability override (EntitySpec.availability, core PR #67).
 
-    The lock sleeps most of the time and the cloud then reports it offline
-    while its cached state stays valid. Sleep(1)/online(2) keep entities
-    available; a genuine offline(0) or a missing networkConnectState service
-    falls back to the global context.available.
+    networkConnectState.state: 0=offline, 1=sleeping (cached state stays
+    valid), 2=online. When the device actually reports the service, follow
+    it strictly.
+
+    Live-install note (2026-09-15, AGS-X11 fw 5.x): the service is declared
+    in the KW5J Profile but the device never reports it — zero occurrences
+    in the integration's persistent device state (snapshot + deviceDataChanged
+    history). Cloud "offline" for this battery lock therefore always means
+    sleeping in practice, so the fallback keeps entities available instead of
+    hiding them behind context.available (which would be permanently False
+    between wakes).
     """
 
     state = _number(device.value("networkConnectState", "state"))
     if state is not None:
         return state in _NET_AVAILABLE_STATES
-    return device.available
+    return True
 
 
 def _battery_level(value: Any) -> int | None:
