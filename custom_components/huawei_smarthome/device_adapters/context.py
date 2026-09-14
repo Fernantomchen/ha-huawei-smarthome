@@ -1,17 +1,26 @@
-"""Raw device context shared by MQTT and product adapters."""
+"""Raw device context shared by MQTT and product adapters.
+
+【本地补丁版】与上游 master 版本的唯一差异是 `available` 属性：
+低功耗设备（门锁等）休眠时华为云端会将其标记为离线，导致实体整体
+unavailable。补丁允许适配器通过 `available_while_cloud_offline = True`
+声明"云端报离线时仍视为可用"（使用最后已知缓存状态）。
+未声明该属性的设备行为与原版完全一致。
+
+应用方法：用本文件覆盖
+/config/custom_components/huawei_smarthome/device_adapters/context.py
+（覆盖前建议把原文件备份为 context.py.bak），然后重启 HA。
+"""
 
 from __future__ import annotations
 
 from collections.abc import Callable, Mapping
 from dataclasses import replace
-from datetime import datetime
 from typing import Any
 
 from ..domain.models import (
     RemoteDeviceDescriptor,
     RemoteServiceState,
     is_older_remote_timestamp,
-    parse_remote_timestamp,
 )
 from ..mqtt.commands import HuaweiCommandGateway
 from ..mqtt.protocol import decode_message
@@ -65,7 +74,14 @@ class DeviceContext:
 
     @property
     def available(self) -> bool:
-        return self.descriptor.online is not False
+        if self.descriptor.online is not False:
+            return True
+        # PATCH: low-power devices (locks, battery sensors) sleep most of
+        # the time and the cloud may report them offline while their cached
+        # state stays valid. Adapters can opt in to stay available.
+        return bool(
+            getattr(self.adapter, "available_while_cloud_offline", False)
+        )
 
     @property
     def prod_id(self) -> str | None:
@@ -93,12 +109,6 @@ class DeviceContext:
 
     def service_state(self, sid: str) -> Mapping[str, Any]:
         return dict(self._state.get(sid, {}))
-
-    def service_updated_at(self, sid: str) -> datetime | None:
-        """Return the last device-reported update time for one service."""
-
-        timestamp = self._timestamps.get(sid)
-        return parse_remote_timestamp(timestamp) if timestamp else None
 
     async def async_send_service(
         self,
@@ -131,6 +141,8 @@ class DeviceContext:
         self,
         listener: Callable[[str, Mapping[str, Any], str | None], None],
     ) -> None:
+        """Unsubscribe from live MQTT service updates."""
+
         self._service_update_listeners.discard(listener)
 
     def handle_mqtt_message(self, payload: bytes) -> bool:
