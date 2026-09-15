@@ -21,12 +21,16 @@ v2 完整版。暴露实体：
 PR #67 提供的实体级回调）声明单品级可用性。注意：实测 AGS-X11 设备
 从不实际上报 networkConnectState（Profile 有声明、云端无数据），故
 字段缺失时回退为保持可用；若未来设备开始上报则严格按字段判断。
+
+真离线兜底（v3.2）：电池锁"云离线 = 休眠"在绝大多数情况下成立，
+仅当电池电量低于 5% 且全部服务状态超过 24 小时没有任何上报时，
+才判定门锁真正断电/离线，实体转为不可用。
 """
 
 from __future__ import annotations
 
 from collections.abc import Mapping
-from datetime import datetime, timezone
+from datetime import datetime, timedelta, timezone
 from typing import Any
 
 from .api import EntitySpec
@@ -144,6 +148,41 @@ def _number(value: Any) -> int | float | None:
     return int(number) if number.is_integer() else number
 
 
+# ---- 真离线兜底参数 ----
+# 电池电量低于该阈值且设备静默超过 STALE_HOURS 小时，才判为真正离线。
+_LOW_BATTERY_THRESHOLD = 5  # %
+_STALE_HOURS = 24.0
+
+
+def _parse_remote_timestamp(value: Any) -> datetime | None:
+    """Parse '20260914T013015Z' style stamps into aware UTC datetimes."""
+    if not isinstance(value, str) or not value.strip():
+        return None
+    text = value.strip()
+    if text.endswith("Z") and "T" in text:
+        try:
+            return datetime.strptime(text, "%Y%m%dT%H%M%SZ").replace(
+                tzinfo=timezone.utc
+            )
+        except ValueError:
+            return None
+    return None
+
+
+def _newest_report_age_hours(device: DeviceContext) -> float | None:
+    """Hours since the freshest reported service state (None if unknown)."""
+    now = datetime.now(timezone.utc)
+    ages: list[float] = []
+    service_states = getattr(device.descriptor, "service_states", None) or {}
+    for service in service_states.values():
+        parsed = _parse_remote_timestamp(getattr(service, "reported_timestamp", None))
+        if parsed is not None:
+            ages.append(max(0.0, (now - parsed).total_seconds()))
+    if not ages:
+        return None
+    return min(ages) / 3600.0
+
+
 def lock_available(device: DeviceContext) -> bool:
     """Entity-level availability override (EntitySpec.availability, core PR #67).
 
@@ -158,12 +197,27 @@ def lock_available(device: DeviceContext) -> bool:
     sleeping in practice, so the fallback keeps entities available instead of
     hiding them behind context.available (which would be permanently False
     between wakes).
+
+    v3.2 battery-based safety net: to still catch the genuinely dead case,
+    entities only flip to unavailable when the battery is below
+    _LOW_BATTERY_THRESHOLD *and* no service has reported anything for more
+    than _STALE_HOURS. A low-but-recently-updated battery means the lock is
+    still communicating (just low), and unknown battery/age stays available
+    (conservative).
     """
 
     state = _number(device.value("networkConnectState", "state"))
     if state is not None:
         return state in _NET_AVAILABLE_STATES
-    return True
+
+    battery = _battery_level(device.value("doorBattery", "level"))
+    if battery is None:
+        battery = _battery_level(device.value("catEyeBattery", "level"))
+    if battery is None or battery >= _LOW_BATTERY_THRESHOLD:
+        return True
+
+    age_hours = _newest_report_age_hours(device)
+    return age_hours is None or age_hours <= _STALE_HOURS
 
 
 def _battery_level(value: Any) -> int | None:
