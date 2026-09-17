@@ -189,6 +189,12 @@ def _profile_from_storage(value: Any) -> Mapping[str, Any] | None:
     if not isinstance(value, Mapping):
         return None
     payload = value.get("profile")
+    # HA Store wraps the saved payload under ``data``; accept both shapes so the
+    # cached Profile actually loads (otherwise every adapter device gets 0 entities).
+    if not isinstance(payload, Mapping):
+        data = value.get("data")
+        if isinstance(data, Mapping):
+            payload = data.get("profile")
     if not isinstance(payload, Mapping) or not payload.get("prodId"):
         return None
     return dict(payload)
